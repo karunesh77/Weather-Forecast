@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather App</title>
+    <style>
+        h1{
+            margin-left:30%;
+        }
+        #box{
+            margin-left: 30%;
+        }
+        #btn{
+            margin-left: 30%;
+            width:100px;
+            height:30px;
+        }
+        #country-Name,#country-Time,#country-Tem{
+            margin-left: 30%;
+           
+        }
+        input{
+            width:250px;
+            height:30px;
+            border-radius: 10px;
+        }
+
+    </style>
+</head>
+<body>
+    
+    <h1>WEATHER DETAIL</h1><br><br>
+
+    <div id="box">
+        <input type="text"  id="input-city" placeholder="Enter City Name">
+    </div><br>
+    <button id="btn">Get Detail</button><br><br><hr>
+
+    <div id="country-Name">
+        London - United Kingdom   
+    </div><br>
+
+    <div id="country-Time">
+        6:00
+    </div><br>
+
+    <div id="country-Tem">
+        67 
+    </div>
+
+</body>
+
+ <!-- http://api.weatherapi.com/v1/current.json?key=9704721440bd479cb5a130948241008&q=London&aqi=yes  -->
+
+<script>
+
+const cityValue = document.getElementById("input-city");
+
+const button = document.getElementById("btn");
+
+    let countryName = document.getElementById("country-Name");
+    let countryTime = document.getElementById("country-Time");
+    let countryTem = document.getElementById("country-Tem");
+
+
+  async function getData(cityName){
+    const promise = await fetch(`http://api.weatherapi.com/v1/current.json?key=9704721440bd479cb5a130948241008&q=${cityName}&aqi=yes`);
+
+    return await promise.json();
+    
+  
+};
+
+
+
+
+button.addEventListener('click',  async () => {
+   const value = cityValue.value;
+   const result =  await getData(value);
+
+   countryName.innerText = `${result.location.name}-${result.location.country}`
+   countryTime.innerText = `${result.location.localtime}`
+   countryTem.innerText = `${result.current.temp_c}`
+   
+    
+})
+
+</script>
+</html>
